@@ -1,0 +1,13 @@
+
+# declarations
+varscope
+    =
+    | 'globalvar'
+    | 'playervar'
+    ;
+
+var_type
+    =
+    | 'define' # No type assigned
+    | type: IDENT
+    ;

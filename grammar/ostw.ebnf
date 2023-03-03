@@ -1,0 +1,53 @@
+@@grammar::Ostw
+@@eol_comments :: /\/\/.*?$/
+@@keyword :: If Else While For Rule variables actions conditions event global player End
+@@keyword :: conditions event global player End settings modes heroes
+
+
+
+start = {root_elements}+ $ ;
+root_elements
+    =
+    | enum
+    | func_call
+    | import
+#    | # TODO: class
+#    | # TODO: rule
+#    | # TODO: subroutine
+
+#    | # TODO: macro
+#    | # TODO: variable_def
+    ;
+
+func_call = func: IDENT call: call_types ';' ;
+
+IDENT =  /[a-zA-Z0-9_]+/ ;
+
+arg = token !'=' ;
+kwarg = KEY: IDENT '=' VALUE:token ;
+call_types
+    =
+    | '(' ')'
+    | '(' ','.{arg}+ ')'
+    | '(' ','.{kwarg:kwarg}+ ')'
+    | '(' ','.{arg:arg}+ ',' ','.{kwarg:kwarg}+ ')' ct: `mixed`
+    ;
+
+# Numeric literals
+NUMERIC = /\d+/ ;
+NUMBER = ['-' NEG: `True`|NEG:`False`]  NUM: NUMERIC ['.' NUMERIC];
+
+token_stack = '.'.{IDENT}+ ;
+token
+    =
+    | NUMBER
+    | (token_stack:token_stack) call:call_types [token]
+    | ('.'.{IDENT})
+    | func_call
+    ;
+
+
+
+#include :: "grammar/import.ebnf"
+#include :: "grammar/declarations.ebnf"
+#include :: "grammar/enum.ebnf"

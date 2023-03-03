@@ -1,0 +1,5 @@
+enum_start = 'enum ' enum_name: IDENT ;
+enum_body = '{' ','.{(enum_def_member !'='|enum_assigned_val)}+'}' ;
+enum_def_member = key:IDENT ;
+enum_assigned_val = key:IDENT '=' val:token ;
+enum = enum_start enum_body;

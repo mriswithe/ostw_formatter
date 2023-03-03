@@ -1,0 +1,7 @@
+BANG
+    =
+    |'!' @:`True`
+    | ()@:`False`
+    ;
+IMPORT_FILE_NAME =  /[a-zA-Z0-9!. _]+/ ;
+import = 'import' '"'  {IMPORT: (BANG IMPORT_FILE_NAME)}  '"' ';';
