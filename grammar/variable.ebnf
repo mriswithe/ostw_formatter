@@ -1,13 +1,37 @@
 
 # declarations
-varscope
+scope
     =
+    | 'globalvar' scope: `GLOBAL`
+    | 'playervar' scope: `PLAYER`
+    | scope `None`
+    ;
+ARRAY
+    =
+    |'[]' is_array: `True`
+    | is_array: `False`
+    ;
+variable_attributes
+    =
+    | 'public'
+    | 'private'
+    | 'protected'
+    | 'virtual'
+    | 'override'
+    | 'abstract'
+    | 'static'
     | 'globalvar'
     | 'playervar'
     ;
-
-var_type
+type
     =
-    | 'define' # No type assigned
-    | type: IDENT
+    | type_str: 'define' has_type: `False` # No type assigned
+    | type_str: (IDENT ARRAY) has_type: `True`
     ;
+
+
+assignment = '=' @:token;
+
+
+name = name: ident;
+variable = @:(scope type name [assignment])';';

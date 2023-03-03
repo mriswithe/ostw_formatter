@@ -15,13 +15,14 @@ root_elements
 #    | # TODO: rule
 #    | # TODO: subroutine
 #    | # TODO: macro
-#    | # TODO: variable_def
+    | variable
     ;
 
 func_call = func: IDENT call: call_types ';' ;
 
 IDENT =  /[a-zA-Z0-9_]+/ ;
-
+# For when we do want to skip whitespace
+ident = IDENT;
 arg = token !'=' ;
 kwarg = KEY: IDENT '=' VALUE:token ;
 call_types
@@ -48,10 +49,9 @@ token
 
 
 #include :: "grammar/import.ebnf"
-#include :: "grammar/declarations.ebnf"
 #include :: "grammar/enum.ebnf"
 #include :: "grammar/class.ebnf"
 #include :: "grammar/rule.ebnf"
 #include :: "grammar/subroutine.ebnf"
 #include :: "grammar/macro.ebnf"
-#include :: "grammar/variable_def.ebnf"
+#include :: "grammar/variable.ebnf"
