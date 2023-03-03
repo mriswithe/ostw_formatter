@@ -11,10 +11,9 @@ root_elements
     | enum
     | func_call
     | import
-#    | # TODO: class
+    | class
 #    | # TODO: rule
 #    | # TODO: subroutine
-
 #    | # TODO: macro
 #    | # TODO: variable_def
     ;
@@ -51,3 +50,8 @@ token
 #include :: "grammar/import.ebnf"
 #include :: "grammar/declarations.ebnf"
 #include :: "grammar/enum.ebnf"
+#include :: "grammar/class.ebnf"
+#include :: "grammar/rule.ebnf"
+#include :: "grammar/subroutine.ebnf"
+#include :: "grammar/macro.ebnf"
+#include :: "grammar/variable_def.ebnf"
