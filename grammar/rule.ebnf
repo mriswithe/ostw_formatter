@@ -1,0 +1,18 @@
+rule_index
+    =
+    | NUMERIC
+    | `None`
+    ;
+rule_event
+    =
+    | 'a'
+    | 'b'
+    ;
+rule_start = 'rule: ' rule_name:(IDENT) rule_index;
+rule_body = '{' {rule_body_parts}* '}' ;
+rule = rule_start rule_body ;
+rule_body_parts
+    =
+    | 'a'
+    | 'b'
+    ;
