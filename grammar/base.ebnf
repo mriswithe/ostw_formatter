@@ -1,0 +1,14 @@
+# Numeric literals
+NUMERIC = /\d+/ ;
+NUMBER = ['-' NEG: `True`|NEG:`False`]  NUM: NUMERIC ['.' NUMERIC];
+
+# most tokens
+IDENT =  /[a-zA-Z0-9_]+/ ;
+# For when we do want to skip whitespace
+ident = IDENT;
+DBL_QUOTE = '"' ;
+SNGL_QUOTE = "'" ;
+ANYTHING_BUT_DBL_QUOTE = /[^"]+/ ;
+ANYTHING_BUT_SNGL_QUOTE = /[^']+/ ;
+dbl_quote_string = DBL_QUOTE ANYTHING_BUT_DBL_QUOTE DBL_QUOTE;
+sngl_quote_string = SNGL_QUOTE ANYTHING_BUT_SNGL_QUOTE SNGL_QUOTE;
