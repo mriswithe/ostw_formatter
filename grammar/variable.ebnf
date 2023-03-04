@@ -27,6 +27,7 @@ type
     =
     | type_str: 'define' has_type: `False` # No type assigned
     | type_str: (IDENT ARRAY) has_type: `True`
+    # | type_str: Whatever the fuck I need to parse `() => void` TODO
     ;
 
 
