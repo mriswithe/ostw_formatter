@@ -9,20 +9,20 @@ start = {root_elements}+ $ ;
 root_elements
     =
     | enum
-    | func_call
     | import
+    | func_call
     | class
-#    | # TODO: rule
-#    | # TODO: subroutine
-#    | # TODO: macro
+    | rule
+#    | subroutine
+#    | macro
+#    | if
+#    | switch
     | variable
     ;
 
 func_call = func: IDENT call: call_types ';' ;
 
-IDENT =  /[a-zA-Z0-9_]+/ ;
-# For when we do want to skip whitespace
-ident = IDENT;
+
 arg = token !'=' ;
 kwarg = KEY: IDENT '=' VALUE:token ;
 call_types
@@ -33,9 +33,7 @@ call_types
     | '(' ','.{arg:arg}+ ',' ','.{kwarg:kwarg}+ ')' ct: `mixed`
     ;
 
-# Numeric literals
-NUMERIC = /\d+/ ;
-NUMBER = ['-' NEG: `True`|NEG:`False`]  NUM: NUMERIC ['.' NUMERIC];
+
 
 token_stack = '.'.{IDENT}+ ;
 token
@@ -43,11 +41,12 @@ token
     | NUMBER
     | (token_stack:token_stack) call:call_types [token]
     | ('.'.{IDENT})
+    | string
     | func_call
     ;
 
 
-
+#
 #include :: "grammar/import.ebnf"
 #include :: "grammar/enum.ebnf"
 #include :: "grammar/class.ebnf"
@@ -55,3 +54,4 @@ token
 #include :: "grammar/subroutine.ebnf"
 #include :: "grammar/macro.ebnf"
 #include :: "grammar/variable.ebnf"
+#include :: "grammar/base.ebnf"
