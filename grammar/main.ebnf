@@ -54,11 +54,7 @@ expr
     | expr math_symbol expr
     | func_call
     ;
-bool
-    =
-    | 'true'
-    | 'false'
-    ;
+
 empty_array = '[' ']' ;
 #
 #include :: "grammar/import.ebnf"
