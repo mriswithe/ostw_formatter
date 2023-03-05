@@ -8,8 +8,10 @@
 start = {root_elements}+ $ ;
 root_elements
     =
+    | declaration
     | enum
     | import
+    | assignment
     | func_call
     | class
     | rule
@@ -17,7 +19,6 @@ root_elements
 #    | macro
 #    | if
 #    | switch
-    | variable
     ;
 
 func_call = func: IDENT call: call_types ';' ;
@@ -27,13 +28,11 @@ arg = token !'=' ;
 kwarg = KEY: IDENT '=' VALUE:token ;
 call_types
     =
-    | '(' ')'
-    | '(' ','.{arg}+ ')'
-    | '(' ','.{kwarg:kwarg}+ ')'
+    | '(' ')' ct: `None`
+    | '(' ','.{arg}+ ')' ct: `args`
+    | '(' ','.{kwarg:kwarg}+ ')' ct: `kwargs`
     | '(' ','.{arg:arg}+ ',' ','.{kwarg:kwarg}+ ')' ct: `mixed`
     ;
-
-
 
 token_stack = '.'.{IDENT}+ ;
 token
@@ -45,7 +44,22 @@ token
     | func_call
     ;
 
-
+expr
+    =
+    | bool
+    | number
+    | token
+    | empty_array
+    | assignment
+    | expr math_symbol expr
+    | func_call
+    ;
+bool
+    =
+    | 'true'
+    | 'false'
+    ;
+empty_array = '[' ']' ;
 #
 #include :: "grammar/import.ebnf"
 #include :: "grammar/enum.ebnf"

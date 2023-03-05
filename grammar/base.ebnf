@@ -1,6 +1,34 @@
 # Numeric literals
+ONE_NUMBER = /\d/ ;
 NUMERIC = /\d+/ ;
-NUMBER = ['-' NEG: `True`|NEG:`False`]  NUM: NUMERIC ['.' NUMERIC];
+DOT = '.' ;
+FLOAT = NEG '.'.{NUMERIC} SCI_NOTE;
+NEG
+    =
+    | '-' @:`NEG`
+    | @:`POS`
+    ;
+INT = NEG {ONE_NUMBER}+;
+E = 'e';
+OP
+    =
+    | '+'
+    | '-'
+    ;
+SCI_NOTE
+    =
+    | E OP NUMERIC
+    | () `False`
+    ;
+
+number_types
+    =
+    | FLOAT
+    | INT
+    ;
+#number = NEG left:NUMERIC [right:FLOAT];
+number = number_types;
+NUMBER = number ;
 
 # most tokens
 IDENT =  /[a-zA-Z0-9_]+/ ;
@@ -8,8 +36,8 @@ IDENT =  /[a-zA-Z0-9_]+/ ;
 ident = IDENT;
 DBL_QUOTE = '"' ;
 SNGL_QUOTE = "'" ;
-ANYTHING_BUT_DBL_QUOTE = /[^"]+/ ;
-ANYTHING_BUT_SNGL_QUOTE = /[^']+/ ;
+ANYTHING_BUT_DBL_QUOTE = /[^"\n]+/ ;
+ANYTHING_BUT_SNGL_QUOTE = /[^'\n]+/ ;
 dbl_quote_string = DBL_QUOTE ANYTHING_BUT_DBL_QUOTE DBL_QUOTE;
 sngl_quote_string = SNGL_QUOTE ANYTHING_BUT_SNGL_QUOTE SNGL_QUOTE;
 string

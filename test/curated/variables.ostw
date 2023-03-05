@@ -9,24 +9,21 @@ globalvar DeathZone[] deathZones;
 playervar define lives = 5;
 AllPlayers().isBoss = false;
 define newBoss = RandomValueInArray(AllPlayers());
-newBoss.isBoss = true;    define label: input[0]; define primaryAction: input[1]; define secondaryAction: input[2]; define posX: input[3]; define posY: input[4]; define clickWidth: input[5];
-    define clickHeight: input[6]; define defaultColor: input[7]; define hoverColor: input[8]; define useDefaultFont: input[9]; define interactable: input[10]; define visible: input[11];
-    define cm_loadingHudEntity = LastTextID();
-    define primary = IsButtonHeld(EventPlayer(), Button.PrimaryFire);
-        define neighbors = Segments
-    define progressBar = CreateProgressBarHudText(
-    define endTime = TotalTimeElapsed() + Nodes.Length * (0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016);
-    define timeRemaining: endTime - TotalTimeElapsed();
-    define timeRemainingText = CreateHudText(
-    define destroy = selectedDummies;
-            define export = Rules[i].Actions[actionIndexFromID(i, Rules[i].ActionOrder[a])].Export;
-            define actionID: export.X;
-            define vector = Nodes[b].Node.Position;
-    define attributeIndices = Attributes.Map((s, i) => i).FilteredArray(
-        define group = attributeIndices.FilteredArray(i =>
+
+define cm_loadingHudEntity = LastTextID();
+define primary = IsButtonHeld(EventPlayer(), Button.PrimaryFire);
+define progressBar = CreateProgressBarHudText();
+define endTime = TotalTimeElapsed() + Nodes.Length * (0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016);
+define timeRemaining: endTime - TotalTimeElapsed();
+define timeRemainingText = CreateHudText(
+define destroy = selectedDummies;
+define export = Rules[i].Actions[actionIndexFromID(i, Rules[i].ActionOrder[a])].Export;
+define vector = Nodes[b].Node.Position;
+define attributeIndices = Attributes.Map((s, i) => i).FilteredArray(
+define group = attributeIndices.FilteredArray(i =>
 playervar define IsNoclipping;
-            define index = NodeIndexFromID(deleteNode.UniqueID);
-        define destroy = scrollItemButtons;
+define index = NodeIndexFromID(deleteNode.UniqueID);
+define destroy = scrollItemButtons;
 globalvar define cm_extendedGlobalCollection;
 globalvar define cm_arrayBuilder;
 globalvar define cm_textBudget;
@@ -42,3 +39,6 @@ playervar define cm_newButton;
 playervar define cm_menuOriginalFacing;
 playervar define cm_menuFrame;
 playervar define cm_isInMenu;
+globalvar Number NodeUniqueID! = 1;
+globalvar Number SegmentUniqueID! = 1;
+globalvar Number AttributeUniqueID! = 1;

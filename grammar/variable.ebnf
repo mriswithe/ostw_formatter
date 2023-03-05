@@ -4,12 +4,18 @@ scope
     =
     | 'globalvar' scope: `GLOBAL`
     | 'playervar' scope: `PLAYER`
-    | scope `None`
+    | scope: `None`
     ;
+
 ARRAY
     =
     |'[]' is_array: `True`
     | is_array: `False`
+    ;
+EXTENDED
+    =
+    | '!' is_extended: `True`
+    | is_extended: `False`
     ;
 variable_attributes
     =
@@ -23,25 +29,38 @@ variable_attributes
     | 'globalvar'
     | 'playervar'
     ;
-type
+declaration = scope token_type token_name ['=' expr] ';';
+token_name = token ARRAY EXTENDED ;
+token_type
     =
-    | type_str: 'define' has_type: `False` # No type assigned
-    | type_str: (IDENT ARRAY) has_type: `True`
-    # | type_str: Whatever the fuck I need to parse `() => void` TODO
+    | 'define'
+    | ident ARRAY
+    ;
+math_symbol
+    =
+    | '+'
+    | '-'
+    | '*'
+    | '/'
     ;
 
-
-assignment = '=' @:token;
-
-
-name = name: ident;
-variable = @:(scope type name [assignment])';';
-
-# Trying to eat `() => void`
-arrow = '=>' ;
-param_type
+assign_symbol
     =
-    | '(' ')' params: `None` arrow token
-    | 's'
-
+    | '=' action: `ASSIGN`
+    | '+=' action: `ADD`
+    | '-=' action: `SUBTRACT`
+    | '*=' action: `MULTIPLY`
+    | '/=' action: `DIVIDE`
+    | '%=' action: `DIVREM` # Better name for this I think, divide and assign remainder
+    | '^=' action: `POWER`
     ;
+mod_symbol
+    =
+    | '++' action: `INCREMENT`
+    | '--' action: `DECREMENT`
+    ;
+assignment = expr (assign_symbol expr| mod_symbol) ';' ;
+
+
+
+

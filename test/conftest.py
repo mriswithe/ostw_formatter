@@ -45,7 +45,7 @@ def declaration_lines(filter_all_lines):
     )
 
 
-@fixture
+@fixture(scope="session")
 def grammar() -> "Grammar":
     from tatsu import compile
 
