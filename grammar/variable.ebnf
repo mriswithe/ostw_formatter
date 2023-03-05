@@ -36,3 +36,12 @@ assignment = '=' @:token;
 
 name = name: ident;
 variable = @:(scope type name [assignment])';';
+
+# Trying to eat `() => void`
+arrow = '=>' ;
+param_type
+    =
+    | '(' ')' params: `None` arrow token
+    | 's'
+
+    ;

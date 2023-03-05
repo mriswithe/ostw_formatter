@@ -1,7 +1,7 @@
 @@grammar::Ostw
 @@eol_comments :: /\/\/.*?$/
 @@keyword :: If Else While For Rule variables actions conditions event global player End
-@@keyword :: conditions event global player End settings modes heroes
+@@keyword :: conditions event global player End settings modes heroes struct class
 
 
 

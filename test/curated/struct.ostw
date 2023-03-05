@@ -1,0 +1,29 @@
+struct CursorMenuButton
+{
+    // TODO: maybe combine some booleans and numbers into vectors to save variable space.
+    public String Label; // [0] *
+    public Any PrimaryAction; // [1]
+    public Any SecondaryAction; // [2]
+    public Number PosX; // [4]
+    public Number PosY; // [5]
+    public Number ClickWidth; // [6]
+    public Number ClickHeight; // [7]
+    public Color DefaultColor; // [8]
+    public Color HoverColor; // [9]
+    // [10] == use default font?
+    public Boolean Interactable; // [11]
+    public Boolean Visible; // [12] (NOTICE: only used in debug clickWidth/height visual right now)
+    public Number ID;
+}
+struct HistoryCatalog
+{
+    public () => void Set; // The action required to enter this state.
+    public () => void Revert; // The logical inverse of 'Set' to backtrack out of this state.
+}
+struct RuleAction
+{
+    public String Label;
+    public Number ID;
+    public () => void Executor;
+    public Vector Export;
+}

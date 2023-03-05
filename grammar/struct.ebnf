@@ -1,0 +1,8 @@
+struct_start = 'enum ' enum_name: IDENT ;
+struct_body = '{' @:(struct_body_parts) '}' ;
+struct_body_parts
+    =
+    | type
+    | method
+    ;
+struct = struct_start struct_body;

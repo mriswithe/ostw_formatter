@@ -1,0 +1,4 @@
+Any makeEffect(Effect effect, in Color color, in Vector position,  in Number radius)
+{
+    return CreateEffect(AllPlayers(), effect, color, position, radius, EffectRev.VisibleToPositionRadiusAndColor);
+}

@@ -1,0 +1,61 @@
+enum OutputLanguage
+{
+    Workshop,
+    OSTW,
+    OverPy
+}
+enum EditorState
+{
+    Node,
+    PlaceDummy
+}
+enum MenuAction
+{
+    Back = 1,
+    FreecamIncrement = 2,
+    FreecamDecrement = 3,
+    Undo = 4,
+    Redo = 5,
+    LinkMode = 6,
+    AttributeIncrement = 7,
+    AttributeIncrementBig = 8,
+    AttributeDecrement = 9,
+    AttributeDecrementBig = 10,
+    AddDummy = 11,
+    ChooseHero = 12,
+    RuleMenu = 13,
+    RuleNext = 14,
+    RulePrevious = 15,
+    CreateRule = 16,
+    AddAction = 17,
+    ScrollbarUp = 18,
+    ScrollbarDown = 19,
+    ScrollbarItem = 20,
+    WaitTimeUp = 21,
+    WaitTimeDown = 22,
+    WaitTimeUpBig = 23,
+    WaitTimeDownBig = 24,
+    WaitConfirm = 25,
+    DeleteAction = 26,
+    PathfinderSettings = 27,
+    AddOrRemovePathfindingAttribute = 28,
+    ToggleAll = 29,
+    Guide = 30,
+    Export = 31,
+    ExportWorkshop = 32,
+    ExportOstw = 33,
+    ExportOverpy = 34
+}
+
+enum MenuState
+{
+    None,
+    Main,
+    ChooseHero,
+    Rules,
+    AddAction,
+    ChooseWaitLength,
+    PathfinderSettings,
+    Guide,
+    Export
+}
