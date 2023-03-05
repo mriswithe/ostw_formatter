@@ -69,3 +69,4 @@ empty_array = '[' ']' ;
 #include :: "grammar/macro.ebnf"
 #include :: "grammar/variable.ebnf"
 #include :: "grammar/base.ebnf"
+#include :: "grammar/math.ebnf"

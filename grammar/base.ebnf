@@ -1,39 +1,9 @@
-# Numeric literals
-ONE_NUMBER = /\d/ ;
-NUMERIC = /\d+/ ;
-DOT = '.' ;
-FLOAT = NEG '.'.{NUMERIC} SCI_NOTE;
-NEG
-    =
-    | '-' @:`NEG`
-    | @:`POS`
-    ;
-INT = NEG {ONE_NUMBER}+;
-E = 'e';
-OP
-    =
-    | '+'
-    | '-'
-    ;
-SCI_NOTE
-    =
-    | E OP NUMERIC
-    | () `False`
-    ;
-
-number_types
-    =
-    | FLOAT
-    | INT
-    ;
-#number = NEG left:NUMERIC [right:FLOAT];
-number = number_types;
-NUMBER = number ;
-
 # most tokens
 IDENT =  /[a-zA-Z0-9_]+/ ;
 # For when we do want to skip whitespace
 ident = IDENT;
+
+# Strings
 DBL_QUOTE = '"' ;
 SNGL_QUOTE = "'" ;
 ANYTHING_BUT_DBL_QUOTE = /[^"\n]+/ ;
@@ -44,4 +14,11 @@ string
     =
     | sngl_quote_string
     | dbl_quote_string
+    ;
+
+# Boolean
+bool
+    =
+    | 'true'
+    | 'false'
     ;
