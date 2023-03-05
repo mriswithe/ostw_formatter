@@ -1,3 +1,4 @@
+import traceback
 from itertools import chain
 from pathlib import Path
 
@@ -35,10 +36,20 @@ def import_lines(filter_all_lines):
 
 
 @fixture
+def declaration_lines(filter_all_lines):
+    return "\n".join([filter_all_lines(i) for i in ["globalvar", "playervar"]])
+
+
+@fixture
 def grammar() -> "Grammar":
     from tatsu import compile
 
-    return compile(GRAMMAR_FILE.read_text(), colorize=True)
+    try:
+        return compile(GRAMMAR_FILE.read_text(), colorize=True)
+    except:
+        # shhhhh traceback too many words
+        traceback.print_exc(limit=1)
+        raise Exception("Unable to Compile") from None
 
 
 @fixture()
