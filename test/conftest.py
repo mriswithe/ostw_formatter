@@ -37,7 +37,12 @@ def import_lines(filter_all_lines):
 
 @fixture
 def declaration_lines(filter_all_lines):
-    return "\n".join([filter_all_lines(i) for i in ["globalvar", "playervar"]])
+    return "\n".join(
+        filter(
+            lambda x: x if "class " not in x else None,
+            [filter_all_lines(i) for i in ["globalvar", "playervar"]],
+        )
+    )
 
 
 @fixture
