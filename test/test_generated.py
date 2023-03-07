@@ -2,7 +2,8 @@ from pprint import pprint
 
 from hypothesis.strategies import characters
 from pytest import mark
-from hypothesis import given, strategies as st, example
+from hypothesis import given, strategies as st, example, extra
+from numpy import isclose
 
 
 @mark.int
@@ -11,33 +12,21 @@ from hypothesis import given, strategies as st, example
 @example(number=-0)
 def test_int_parsing(number: int, grammar):
     out = grammar.parse(str(number), start="number")
-    strnum = [str(abs(number))]
-    if number > 0:
-        assert ("POS", strnum) == out
-    elif number < 0:
-        assert ("NEG", strnum) == out
-    elif number == 0:
-        # Zero
-        assert ("POS", strnum) == out
-    elif number == -0:
-        assert ("NEG", strnum) == out
-    print(f"\n{number=}\n{out=}\n{strnum=}")
+    if number >= 0:
+        assert int(out) == number
+    else:
+        l, r = out
+        assert int(l + r) == number
 
 
-@given(left=st.integers(), right=st.integers(min_value=1))
+@given(left=st.integers(), right=st.integers(min_value=0))
 @mark.float
 def test_simple_float(left: int, right: int, grammar):
     num_str = f"{left}.{right}"
-    p, (l, r) = grammar.parse(num_str, start="number")
-    assert int(r) == right
-    if left >= 0:
-        assert int(l) == left
-        assert p == "POS"
-    else:
-        assert int("-" + l) == left
-        assert p == "NEG"
-    print(f'Left: {left}\tParsed Left: {"-" if p == "NEG" else ""}{l}')
-    print(f"Right: {right}\tParsed Right: {r}")
+    out = grammar.parse(num_str, start="number")
+    f1 = float(num_str)
+    f2 = float("".join(out))
+    assert isclose(f1, f2)
 
 
 @mark.parametrize("delim", ('"', "'"))
@@ -55,8 +44,8 @@ def test_string_parsing(gened: str, delim: str, grammar):
     print(f"\n{gened=}\n{out=}")
 
 
-# lowish_int = st.integers(min_value=-1000, max_value=1000)
-lowish_int = st.just(-100)
+lowish_int = st.integers(min_value=-1000, max_value=1000)
+# lowish_int = st.just(-100)
 operators = "+-/*"
 
 
