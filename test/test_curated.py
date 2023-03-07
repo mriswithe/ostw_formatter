@@ -1,9 +1,18 @@
 from pytest import mark
+from rich.pretty import pprint
 
 
 @mark.parametrize("filename", ["enum"])
 def test_curated(grammar, read_curated_file, filename: str):
-    grammar.parse(read_curated_file(f"{filename}.ostw"))
+    out = grammar.parse(read_curated_file(f"{filename}.ostw"), trace=True)
+    pprint(out)
+
+
+def test_just_enum(grammar, read_curated_file):
+
+    out = grammar.parse(read_curated_file("enum.ostw"), start="enums_test", trace=True)
+    print("\n")
+    pprint(out)
 
 
 def test_expr(grammar):
@@ -14,7 +23,6 @@ def test_expr(grammar):
     # sample = "What()"
     out = grammar.parse(sample, start="expr", trace=True)
     print("\n")
-    from rich.pretty import pprint
 
     pprint(sample)
     pprint(out)
