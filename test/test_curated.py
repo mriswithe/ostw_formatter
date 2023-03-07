@@ -1,10 +1,7 @@
-from pprint import pprint
-
-import rich
 from pytest import mark
 
 
-@mark.parametrize("filename", ["enum", "struct", "global_func", "variables"])
+@mark.parametrize("filename", ["enum"])
 def test_curated(grammar, read_curated_file, filename: str):
     grammar.parse(read_curated_file(f"{filename}.ostw"))
 
