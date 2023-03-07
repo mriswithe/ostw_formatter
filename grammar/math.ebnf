@@ -22,7 +22,7 @@ NUMBER_TYPES
     | FLOAT
     | INT
     ;
-#number = NEG left:NUMERIC [right:FLOAT];
+
 number = NUMBER_TYPES;
 NUMBER = number ;
 
@@ -36,4 +36,4 @@ math_symbol
     ;
 
 
-math = expr math_symbol expr ;
+math = literal_values math_symbol literal_values ;

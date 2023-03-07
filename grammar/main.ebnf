@@ -23,7 +23,7 @@ root_elements
 
 literal_values
     =
-    | (&'\d'|&'-') number
+    | number
     | bool
     | (&'"'|&"'") string
     | &'[' empty_array
