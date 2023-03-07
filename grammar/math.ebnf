@@ -2,13 +2,9 @@
 ONE_NUMBER = /\d/ ;
 NUMERIC = /\d+/ ;
 DOT = '.' ;
-FLOAT = NEG '.'.{NUMERIC}+ SCI_NOTE;
-NEG
-    =
-    | '-' @:`NEG`
-    | @:`POS`
-    ;
-INT = NEG {ONE_NUMBER}+;
+FLOAT = [NEG] NUMERIC DOT NUMERIC SCI_NOTE;
+NEG = '-';
+INT = [NEG] NUMERIC;
 E = 'e';
 OP
     =
@@ -17,17 +13,17 @@ OP
     ;
 SCI_NOTE
     =
-    | E OP NUMERIC
+    | &E OP NUMERIC
     | () `False`
     ;
 
-number_types
+NUMBER_TYPES
     =
     | FLOAT
     | INT
     ;
-#number = NEG left:NUMERIC [right:FLOAT];
-number = number_types;
+
+number = NUMBER_TYPES;
 NUMBER = number ;
 
 
@@ -39,3 +35,5 @@ math_symbol
     | '/'
     ;
 
+
+math = literal_values math_symbol literal_values ;
