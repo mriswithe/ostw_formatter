@@ -1,16 +1,15 @@
 @@grammar::Ostw
 @@eol_comments :: /\/\/.*?$/
 @@keyword :: If Else While For Rule variables actions conditions event global player End
-@@keyword :: conditions event global player End settings modes heroes struct class
+@@keyword :: conditions event global player End settings modes heroes struct class enum
 
 
 
 start = {root_elements}+ $ ;
 root_elements
     =
-    | declaration
     | enum
-    | import
+    | ';'.{import}*
     | assignment
     | token
     | class
@@ -32,16 +31,17 @@ LITERAL_VALUES = >literal_values;
 
 
 empty_array = '[' ']' ;
+
 #
-#include :: "grammar/import.ebnf"
-#include :: "grammar/enum.ebnf"
-#include :: "grammar/class.ebnf"
-#include :: "grammar/rule.ebnf"
-#include :: "grammar/subroutine.ebnf"
-#include :: "grammar/macro.ebnf"
-#include :: "grammar/variable.ebnf"
-#include :: "grammar/base.ebnf"
-#include :: "grammar/math.ebnf"
+#include :: "import.ebnf"
+#include :: "enum.ebnf"
+#include :: "class.ebnf"
+#include :: "rule.ebnf"
+#include :: "subroutine.ebnf"
+#include :: "macro.ebnf"
+#include :: "variable.ebnf"
+#include :: "base.ebnf"
+#include :: "math.ebnf"
 token = token_complex ;
 
 token_complex = base:token_base r'.'.{children:token_child}* ;

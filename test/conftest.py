@@ -2,19 +2,24 @@ import traceback
 from itertools import chain
 from pathlib import Path
 
+from _pytest.monkeypatch import MonkeyPatch
 from pytest import fixture
 from typing import TYPE_CHECKING
+import os
 
 if TYPE_CHECKING:
     from tatsu.grammars import Grammar
 
 FILE_PARENT = Path(__file__).parent
-GRAMMAR_FILE = FILE_PARENT.parent / "grammar" / "main.ebnf"
+GRAMMAR_DIR = FILE_PARENT.parent / "ostw" / "grammar"
+GRAMMAR_FILE = GRAMMAR_DIR / "main.ebnf"
 CORPUS = (FILE_PARENT / "corpus").rglob("*.del")
 CORPUS_ALL_LINES = list(
     chain.from_iterable(f.read_text("utf8").splitlines() for f in CORPUS)
 )
 CURATED_DIR = FILE_PARENT / "curated"
+
+TRACE = os.environ.get("TRACE", False)
 
 
 @fixture(scope="session")
@@ -50,7 +55,13 @@ def grammar() -> "Grammar":
     from tatsu import compile
 
     try:
-        return compile(GRAMMAR_FILE.read_text(), colorize=True)
+        with MonkeyPatch.context() as mp:
+            mp.chdir(GRAMMAR_DIR)
+            return compile(
+                GRAMMAR_FILE.read_text(),
+                colorize=True,
+                filename=str(GRAMMAR_FILE.resolve()),
+            )
     except:
         # shhhhh traceback too many words
         traceback.print_exc(limit=1)

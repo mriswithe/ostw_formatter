@@ -29,7 +29,8 @@ variable_attributes
     | 'globalvar'
     | 'playervar'
     ;
-declaration = scope token_type token_name ['=' expr] ';';
+declaration = scope token_type token_name ['=' expr];
+multiple_declarations = ';'.{declaration}*;
 token_name = token ARRAY EXTENDED ;
 token_type
     =

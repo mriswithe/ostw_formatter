@@ -1,0 +1,6 @@
+enum_start = 'enum ' enum_name: ident ;
+enum_body = '{' children:','.{enum_assigned_val|ident}* '}' ;
+enum_assigned_val = ident '=' expr ;
+enum = enum_start enum_body;
+one_enum_test = enum $ ;
+enums_test = {enum}* $ ;

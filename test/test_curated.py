@@ -4,13 +4,13 @@ from rich.pretty import pprint
 
 @mark.parametrize("filename", ["enum"])
 def test_curated(grammar, read_curated_file, filename: str):
-    out = grammar.parse(read_curated_file(f"{filename}.ostw"), trace=True)
+    out = grammar.parse(read_curated_file(f"{filename}.ostw"))
     pprint(out)
 
 
 def test_just_enum(grammar, read_curated_file):
 
-    out = grammar.parse(read_curated_file("enum.ostw"), start="enums_test", trace=True)
+    out = grammar.parse(read_curated_file("enum.ostw"), start="enums_test")
     print("\n")
     pprint(out)
 
@@ -21,7 +21,7 @@ def test_expr(grammar):
     sample = "Nodes.Length.Stuff.Such(a,b,x=y).stuff"
     sample = "Nodes.Length.Stuff.Such().stuff.such.What(a,b)"
     # sample = "What()"
-    out = grammar.parse(sample, start="expr", trace=True)
+    out = grammar.parse(sample, start="expr")
     print("\n")
 
     pprint(sample)

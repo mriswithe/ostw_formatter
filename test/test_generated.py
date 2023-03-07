@@ -51,8 +51,8 @@ operators = "+-/*"
 
 @mark.parametrize("op", operators)
 @given(
-    left=lowish_int,
-    right=lowish_int,
+    left=st.integers(),
+    right=st.integers(),
 )
 @mark.expr
 def test_parse_math_expr(op: str, left: int, right: int, grammar):
