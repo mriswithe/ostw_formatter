@@ -28,26 +28,32 @@ arg = token !'=' ;
 kwarg = KEY: IDENT '=' VALUE:token ;
 call_types
     =
-    | '(' ')' ct: `None`
-    | '(' ','.{arg}+ ')' ct: `args`
-    | '(' ','.{kwarg:kwarg}+ ')' ct: `kwargs`
-    | '(' ','.{arg:arg}+ ',' ','.{kwarg:kwarg}+ ')' ct: `mixed`
+    | '(' ','.{arg}+ ',' ','.{kwarg}+ ')'
+    | '(' ','.{kwarg}+ ')'
+    | '(' ','.{arg}+ ')'
+    | '(' ')'
     ;
-
+CALL_TYPES = >call_types;
 token_stack = '.'.{IDENT}+ ;
 token
     =
-    | NUMBER
     | (token_stack:token_stack) call:call_types [token]
     | ('.'.{IDENT})
     | string
     | func_call
     ;
-
-expr
+literal_values
     =
+    | (&'\d'|&'-') number
     | bool
-    | number
+    | (&'"'|&"'") string
+    | &'[' empty_array
+    ;
+LITERAL_VALUES = >literal_values;
+expr_part
+    =
+    | literal_values
+    | math
     | token
     | empty_array
     | assignment
