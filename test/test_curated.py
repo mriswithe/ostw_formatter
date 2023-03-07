@@ -15,7 +15,7 @@ def test_expr(grammar):
     sample = "Nodes.Length.Stuff.Such(a,b,x=y).stuff"
     sample = "Nodes.Length.Stuff.Such().stuff.such.What(a,b)"
     # sample = "What()"
-    out = grammar.parse(sample, start="test_start", trace=True, parseinfo=False)
+    out = grammar.parse(sample, start="expr", trace=True)
     print("\n")
     from rich.pretty import pprint
 

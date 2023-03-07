@@ -12,7 +12,7 @@ root_elements
     | enum
     | import
     | assignment
-    | func_call
+    | token
     | class
     | rule
 #    | subroutine
@@ -21,27 +21,6 @@ root_elements
 #    | switch
     ;
 
-func_call = func: IDENT call: call_types ';' ;
-
-
-arg = token !'=' ;
-kwarg = KEY: IDENT '=' VALUE:token ;
-call_types
-    =
-    | '(' ','.{arg}+ ',' ','.{kwarg}+ ')'
-    | '(' ','.{kwarg}+ ')'
-    | '(' ','.{arg}+ ')'
-    | '(' ')'
-    ;
-CALL_TYPES = >call_types;
-token_stack = '.'.{IDENT}+ ;
-token
-    =
-    | (token_stack:token_stack) call:call_types [token]
-    | ('.'.{IDENT})
-    | string
-    | func_call
-    ;
 literal_values
     =
     | (&'\d'|&'-') number
@@ -50,16 +29,7 @@ literal_values
     | &'[' empty_array
     ;
 LITERAL_VALUES = >literal_values;
-expr_part
-    =
-    | literal_values
-    | math
-    | token
-    | empty_array
-    | assignment
-    | expr math_symbol expr
-    | func_call
-    ;
+
 
 empty_array = '[' ']' ;
 #
@@ -72,3 +42,26 @@ empty_array = '[' ']' ;
 #include :: "grammar/variable.ebnf"
 #include :: "grammar/base.ebnf"
 #include :: "grammar/math.ebnf"
+token = token_complex ;
+
+token_complex = base:token_base r'.'.{children:token_child}* ;
+token_base
+    =
+    | literal_values
+    | ident !'('
+    | func_call
+    ;
+token_child
+    =
+    | func_call
+    | ident
+    ;
+expr
+    =
+    | token math_symbol expr
+    | token
+    ;
+
+func_call =  func_name:ident '(' ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
+
+kwarg = ident '=' expr ;
