@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 FILE_PARENT = Path(__file__).parent
 GRAMMAR_DIR = FILE_PARENT.parent / "ostw" / "grammar"
 GRAMMAR_FILE = GRAMMAR_DIR / "main.ebnf"
-CORPUS = (FILE_PARENT / "corpus").rglob("*.del")
+CORPUS = list((FILE_PARENT / "corpus").rglob("*.del"))
 CORPUS_ALL_LINES = list(
     chain.from_iterable(f.read_text("utf8").splitlines() for f in CORPUS)
 )
@@ -25,6 +25,11 @@ TRACE = os.environ.get("TRACE", False)
 @fixture(scope="session")
 def all_lines():
     return CORPUS_ALL_LINES
+
+
+@fixture(scope="session")
+def corpus_files():
+    return CORPUS
 
 
 @fixture
