@@ -4,4 +4,4 @@ BANG
     | ()@:`False`
     ;
 IMPORT_FILE_NAME =  /[a-zA-Z0-9!. _]+/ ;
-import = 'import ' string ';';
+import = 'import' string ';';
