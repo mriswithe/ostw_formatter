@@ -2,6 +2,7 @@ import traceback
 from itertools import chain
 from pathlib import Path
 
+from _pytest.fixtures import SubRequest
 from _pytest.monkeypatch import MonkeyPatch
 from pytest import fixture, mark
 from rich.pretty import pprint
@@ -74,23 +75,17 @@ def grammar() -> "Grammar":
         raise Exception("Unable to Compile") from None
 
 
-@fixture()
-def read_curated_file():
-    def inner(filename: str) -> str:
-        return (CURATED_DIR / filename).read_text("utf-8")
-
-    return inner
-
-
-def param_curated():
-    dirs = list(filter(lambda x: x.is_dir(), CURATED_DIR.glob("*")))
-    for d in dirs:
+def iter_curated_pairs():
+    for d in filter(lambda x: x.is_dir(), CURATED_DIR.glob("*")):
         for f in d.glob("*"):
             yield d.name, f
 
 
-@mark.parametrize("rule,src", list(param_curated()))
-def test_curated(rule: str, src: Path, grammar, record_property):
+def iter_ids():
+    for name, fp in iter_curated_pairs():
+        yield f"{name}-{fp.name}"
 
-    out = grammar.parse(src.read_text("utf-8"), start=rule)
-    pprint(out)
+
+@fixture(params=list(iter_curated_pairs()), ids=list(iter_ids()))
+def curated_pair(request: SubRequest):
+    return request.param

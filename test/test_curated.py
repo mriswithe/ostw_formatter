@@ -1,21 +1,9 @@
-from pytest import mark
 from rich.pretty import pprint
 
 
-@mark.parametrize("filename", ["enum"])
-def test_curated(grammar, read_curated_file, filename: str):
-    out = grammar.parse(read_curated_file(f"{filename}.ostw"))
-    pprint(out)
-
-
-def test_curated_dir(grammar, iter_curated_files, folder: str):
-    pass
-
-
-def test_just_enum(grammar, read_curated_file):
-
-    out = grammar.parse(read_curated_file("enum.ostw"), start="enums_test")
-    print("\n")
+def test_curated(curated_pair, grammar, record_property):
+    rule, src = curated_pair
+    out = grammar.parse(src.read_text("utf-8"), start=rule)
     pprint(out)
 
 
