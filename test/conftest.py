@@ -1,13 +1,11 @@
 import traceback
 from itertools import chain
 from pathlib import Path
-
-from _pytest.fixtures import SubRequest
-from _pytest.monkeypatch import MonkeyPatch
-from pytest import fixture, mark
-from rich.pretty import pprint
-from typing import TYPE_CHECKING
 import os
+
+from _pytest.monkeypatch import MonkeyPatch
+from pytest import fixture
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from tatsu.grammars import Grammar
@@ -87,5 +85,14 @@ def iter_ids():
 
 
 @fixture(params=list(iter_curated_pairs()), ids=list(iter_ids()))
-def curated_pair(request: SubRequest):
+def curated_pair(request):
+    return request.param
+
+
+def iter_variable_lines():
+    return [line for line in (CURATED_DIR / "variables.del").read_text().splitlines()]
+
+
+@fixture(params=iter_variable_lines())
+def variable_line(request):
     return request.param

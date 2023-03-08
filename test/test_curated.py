@@ -1,9 +1,16 @@
 from rich.pretty import pprint
 
 
-def test_curated(curated_pair, grammar, record_property):
+def test_curated_files(curated_pair, grammar):
     rule, src = curated_pair
     out = grammar.parse(src.read_text("utf-8"), start=rule)
+    print("\n")
+    pprint(out)
+
+
+def test_curated_variable(variable_line, grammar):
+    out = grammar.parse(variable_line, start="declaration")
+    print("\n")
     pprint(out)
 
 
