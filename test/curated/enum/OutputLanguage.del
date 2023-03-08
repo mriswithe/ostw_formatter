@@ -1,0 +1,6 @@
+enum OutputLanguage
+{
+    Workshop,
+    OSTW,
+    OverPy
+}

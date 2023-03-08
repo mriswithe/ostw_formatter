@@ -1,0 +1,7 @@
+enum EditorState
+{
+    Node,
+    PlaceDummy
+}
+
+

@@ -1,0 +1,12 @@
+enum MenuState
+{
+    None,
+    Main,
+    ChooseHero,
+    Rules,
+    AddAction,
+    ChooseWaitLength,
+    PathfinderSettings,
+    Guide,
+    Export
+}

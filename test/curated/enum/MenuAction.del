@@ -1,14 +1,3 @@
-enum OutputLanguage
-{
-    Workshop,
-    OSTW,
-    OverPy
-}
-enum EditorState
-{
-    Node,
-    PlaceDummy
-}
 enum MenuAction
 {
     Back = 1,
@@ -45,17 +34,4 @@ enum MenuAction
     ExportWorkshop = 32,
     ExportOstw = 33,
     ExportOverpy = 34
-}
-
-enum MenuState
-{
-    None,
-    Main,
-    ChooseHero,
-    Rules,
-    AddAction,
-    ChooseWaitLength,
-    PathfinderSettings,
-    Guide,
-    Export
 }
