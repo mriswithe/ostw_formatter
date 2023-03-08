@@ -1,0 +1,168 @@
+class Scrollbar
+{
+    Number itemY: 0.175;
+    Number topY;
+    Number posX;
+    Color[] itemColors;
+    String[] scrollItems;
+    Any[] scrollItemButtons;
+    Any upButton;
+    Any downButton;
+    Number viewCount;
+    Number position;
+    Number => void itemSelected;
+
+    public Boolean canScrollUp: position > 0;
+    public Boolean canScrollDown: position < scrollItems.Length - viewCount;
+
+    Boolean isRendered(Number item): item >= position && item < position + viewCount;
+
+    public constructor(in Number posX, in Number topY, in String[] items, in Number viewCount, in Number => void itemSelected)
+    {
+        this.posX = posX;
+        this.topY = topY;
+        scrollItems = items;
+        itemColors = scrollItems.Map(item => Color.White);
+        scrollItemButtons = scrollItems.Map(item => -1);
+        this.itemSelected = itemSelected;
+        this.viewCount = viewCount;
+
+        upButton = createButton(
+            '↑',
+            posX: posX,
+            posY: topY,
+            primaryAction: [MenuAction.ScrollbarUp, this, 1],
+            secondaryAction: [MenuAction.ScrollbarUp, this, viewCount],
+        );
+        downButton = createButton(
+            '↓',
+            posX: posX,
+            posY: topY - (viewCount + 1) * itemY,
+            primaryAction: [MenuAction.ScrollbarDown, this, 1],
+            secondaryAction: [MenuAction.ScrollbarDown, this, viewCount],
+        );
+        Update();
+    }
+
+    public void ScrollUp(in Number amount)
+    {
+        position = Max(position - amount, 0);
+        Update();
+    }
+
+    public void ScrollDown(in Number amount)
+    {
+        position = Min(position + amount, scrollItems.Length - viewCount);
+        Update();
+    }
+
+    public void Choose(in Number item)
+    {
+        itemSelected(item);
+    }
+
+    public void Remove(in Number item)
+    {
+        scrollItems.ModRemoveByIndex(item);
+
+        if (scrollItemButtons[item] != -1)
+            DestroyButton(scrollItemButtons[item]);
+
+        scrollItemButtons.ModRemoveByIndex(item);
+        itemColors.ModRemoveByIndex(item);
+        Update();
+    }
+
+    public void Add(in String label, in Color color = Color.White)
+    {
+        scrollItems += label;
+        itemColors += color;
+        scrollItemButtons += -1;
+        Update();
+    }
+
+    public void Insert(in Number index, in String label, in Color color = Color.White)
+    {
+        scrollItems = ArrayInsert(scrollItems, index, label);
+        itemColors = ArrayInsert(itemColors, index, color);
+        scrollItemButtons = ArrayInsert(scrollItemButtons, index, <Any>(-1)); // todo ostw: Number should be accepted as Any by default for type inferrence
+        Update();
+    }
+
+    T[] ArrayInsert<T>(in T[] array, in Number index, in T value)
+    {
+        return array.Slice(0, index).Append(value).Append(array.Slice(index, 9999));
+    }
+
+    public void Update() '(Subroutine) CM: Update scrollbar'
+    {
+        for (Number i = 0; scrollItems.Length; 1)
+        {
+            // Out of range
+            if (i < position || i >= position + viewCount)
+            {
+                // Remove button
+                if (scrollItemButtons[i] != -1)
+                {
+                    DestroyButton(scrollItemButtons[i]);
+                    scrollItemButtons[i] = -1;
+                }
+            }
+            else
+            {
+                Number posY! = topY - (i - position + 1) * itemY;
+
+                // Create button
+                if (scrollItemButtons[i] == -1)
+                    scrollItemButtons[i] = createButton(
+                        scrollItems[i],
+                        posX: posX,
+                        posY: posY,
+                        clickWidth: 1.4,
+                        primaryAction: [MenuAction.ScrollbarItem, this, i],
+                        defaultColor: itemColors[i]
+                    );
+                // Update button position
+                else
+                    SetPosY(scrollItemButtons[i], posY);
+            }
+        }
+
+        // Update upButton
+        SetInteractability(upButton, canScrollUp);
+        SetColor(upButton, canScrollUp ? Color.White : Color.Gray);
+
+        // Update downButton
+        SetInteractability(downButton, canScrollDown);
+        SetColor(downButton, canScrollDown ? Color.White : Color.Gray);
+    }
+
+    public void SetButtonColor(in Number item, in Color color)
+    {
+        if (isRendered(item))
+            SetColor(scrollItemButtons[item], color);
+
+        itemColors[item] = color;
+    }
+
+    public void SetButtonLabel(in Number item, in String newLabel)
+    {
+        if (isRendered(item))
+            SetLabel(scrollItemButtons[item], newLabel);
+
+        scrollItems[item] = newLabel;
+    }
+
+    public void Dispose() '(Subroutine) dispose scrollbar'
+    {
+        define destroy = scrollItemButtons;
+
+        for (Number i = 0; destroy.Length; 1)
+            if (destroy[i] != -1)
+                DestroyButton(destroy[i]);
+
+        DestroyButton(upButton);
+        DestroyButton(downButton);
+        delete this;
+    }
+}

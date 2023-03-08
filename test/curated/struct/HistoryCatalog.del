@@ -1,0 +1,5 @@
+struct HistoryCatalog
+{
+    public () => void Set; // The action required to enter this state.
+    public () => void Revert; // The logical inverse of 'Set' to backtrack out of this state.
+}

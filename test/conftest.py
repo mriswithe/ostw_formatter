@@ -3,7 +3,8 @@ from itertools import chain
 from pathlib import Path
 
 from _pytest.monkeypatch import MonkeyPatch
-from pytest import fixture
+from pytest import fixture, mark
+from rich.pretty import pprint
 from typing import TYPE_CHECKING
 import os
 
@@ -79,3 +80,17 @@ def read_curated_file():
         return (CURATED_DIR / filename).read_text("utf-8")
 
     return inner
+
+
+def param_curated():
+    dirs = list(filter(lambda x: x.is_dir(), CURATED_DIR.glob("*")))
+    for d in dirs:
+        for f in d.glob("*"):
+            yield d.name, f
+
+
+@mark.parametrize("rule,src", list(param_curated()))
+def test_curated(rule: str, src: Path, grammar, record_property):
+
+    out = grammar.parse(src.read_text("utf-8"), start=rule)
+    pprint(out)

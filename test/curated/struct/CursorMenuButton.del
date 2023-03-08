@@ -15,15 +15,3 @@ struct CursorMenuButton
     public Boolean Visible; // [12] (NOTICE: only used in debug clickWidth/height visual right now)
     public Number ID;
 }
-struct HistoryCatalog
-{
-    public () => void Set; // The action required to enter this state.
-    public () => void Revert; // The logical inverse of 'Set' to backtrack out of this state.
-}
-struct RuleAction
-{
-    public String Label;
-    public Number ID;
-    public () => void Executor;
-    public Vector Export;
-}

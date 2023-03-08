@@ -38,7 +38,6 @@ empty_array = '[' ']' ;
 #include :: "class.ebnf"
 #include :: "rule.ebnf"
 #include :: "subroutine.ebnf"
-#include :: "macro.ebnf"
 #include :: "variable.ebnf"
 #include :: "base.ebnf"
 #include :: "math.ebnf"

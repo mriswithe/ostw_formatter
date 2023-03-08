@@ -8,6 +8,10 @@ def test_curated(grammar, read_curated_file, filename: str):
     pprint(out)
 
 
+def test_curated_dir(grammar, iter_curated_files, folder: str):
+    pass
+
+
 def test_just_enum(grammar, read_curated_file):
 
     out = grammar.parse(read_curated_file("enum.ostw"), start="enums_test")

@@ -1,0 +1,7 @@
+struct RuleAction
+{
+    public String Label;
+    public Number ID;
+    public () => void Executor;
+    public Vector Export;
+}
