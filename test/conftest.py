@@ -93,6 +93,6 @@ def iter_variable_lines():
     return [line for line in (CURATED_DIR / "variables.del").read_text().splitlines()]
 
 
-@fixture(params=iter_variable_lines())
+@fixture(params=iter_variable_lines(), ids=list(range(len(iter_variable_lines()))))
 def variable_line(request):
     return request.param

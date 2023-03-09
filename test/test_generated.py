@@ -1,9 +1,6 @@
-from pprint import pprint
-
 from hypothesis.strategies import characters
 from pytest import mark
-from hypothesis import given, strategies as st, example, extra
-from numpy import isclose
+from hypothesis import example, given, strategies as st
 
 
 @mark.int
@@ -24,9 +21,7 @@ def test_int_parsing(number: int, grammar):
 def test_simple_float(left: int, right: int, grammar):
     num_str = f"{left}.{right}"
     out = grammar.parse(num_str, start="number")
-    f1 = float(num_str)
-    f2 = float("".join(out))
-    assert isclose(f1, f2)
+    assert num_str == "".join(out)
 
 
 @mark.parametrize("delim", ('"', "'"))
