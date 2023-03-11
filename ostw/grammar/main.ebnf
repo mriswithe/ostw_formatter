@@ -32,15 +32,6 @@ LITERAL_VALUES = >literal_values;
 
 empty_array = '[' ']' ;
 
-#
-#include :: "import.ebnf"
-#include :: "enum.ebnf"
-#include :: "class.ebnf"
-#include :: "rule.ebnf"
-#include :: "subroutine.ebnf"
-#include :: "variable.ebnf"
-#include :: "base.ebnf"
-#include :: "math.ebnf"
 token = token_complex ;
 
 token_complex = base:token_base r'.'.{children:token_child}* ;
@@ -64,3 +55,12 @@ expr
 func_call =  func_name:ident '(' ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 
 kwarg = ident '=' expr ;
+
+#include :: "import.ebnf"
+#include :: "enum.ebnf"
+#include :: "class.ebnf"
+#include :: "rule.ebnf"
+#include :: "subroutine.ebnf"
+#include :: "variable.ebnf"
+#include :: "base.ebnf"
+#include :: "math.ebnf"
