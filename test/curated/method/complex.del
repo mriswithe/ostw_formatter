@@ -1,0 +1,4 @@
+    T[] ArrayInsert<T>(in T[] array, in Number index, in T value)
+    {
+        return array.Slice(0, index).Append(value).Append(array.Slice(index, 9999));
+    }

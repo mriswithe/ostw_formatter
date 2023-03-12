@@ -1,9 +1,0 @@
-
-arrow = '=' '>';
-
-type
-    =
-    | (','.{params:expr}+) arrow return:expr
-    | expr arrow return:expr
-    | expr
-    ;

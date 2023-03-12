@@ -60,7 +60,7 @@ kwarg = ident '=' expr ;
 #include :: "enum.ebnf"
 #include :: "class.ebnf"
 #include :: "rule.ebnf"
-#include :: "subroutine.ebnf"
 #include :: "variable.ebnf"
 #include :: "base.ebnf"
 #include :: "math.ebnf"
+##include :: "struct.ebnf"
