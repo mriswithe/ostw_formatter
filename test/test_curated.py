@@ -3,14 +3,17 @@ from rich.pretty import pprint
 
 def test_curated_files(curated_pair, grammar):
     rule, src = curated_pair
-    out = grammar.parse(src.read_text("utf-8"), start=rule)
-    print("\n")
+    src_text = src.read_text("utf-8")
+    print(f"\nsrc:{src_text}")
+    out = grammar.parse(src_text, start=rule, trace=True)
+
     pprint(out)
 
 
 def test_curated_variable(variable_line, grammar):
-    out = grammar.parse(variable_line, start="declaration")
     print("\n")
+    print(f"{variable_line=}")
+    out = grammar.parse(variable_line, start="declaration", trace=True)
     pprint(out)
 
 
