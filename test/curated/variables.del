@@ -9,7 +9,6 @@ globalvar DeathZone[] deathZones;
 playervar define lives = 5;
 AllPlayers().isBoss = false;
 define newBoss = RandomValueInArray(AllPlayers());
-
 define cm_loadingHudEntity = LastTextID();
 define primary = IsButtonHeld(EventPlayer(), Button.PrimaryFire);
 define progressBar = CreateProgressBarHudText();
@@ -20,7 +19,6 @@ define destroy = selectedDummies;
 define export = Rules[i].Actions[actionIndexFromID(i, Rules[i].ActionOrder[a])].Export;
 define vector = Nodes[b].Node.Position;
 define attributeIndices = Attributes.Map((s, i) => i).FilteredArray(
-define group = attributeIndices.FilteredArray(i =>
 playervar define IsNoclipping;
 define index = NodeIndexFromID(deleteNode.UniqueID);
 define destroy = scrollItemButtons;
