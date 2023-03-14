@@ -45,10 +45,7 @@ operators = "+-/*"
 
 
 @mark.parametrize("op", operators)
-@given(
-    left=st.integers(),
-    right=st.integers(),
-)
+@given(left=st.integers(), right=st.integers())
 @mark.expr
 def test_parse_math_expr(op: str, left: int, right: int, grammar):
     test_expr = f"{left} {op} {right}"
@@ -58,3 +55,19 @@ def test_parse_math_expr(op: str, left: int, right: int, grammar):
         trace=True,
     )
     print(f"{test_expr}\n{out}")
+
+
+@mark.parametrize("delim", ('"', "'"))
+@given(
+    import_name=st.text(
+        min_size=1,
+        alphabet=st.characters(
+            blacklist_categories=("Cs",), blacklist_characters=["\n", "'", '"']
+        ),
+    )
+)
+def test_import_string(import_name: str, delim: str, grammar):
+    test_str = f"import {delim}{import_name}{delim};"
+    print(f"{test_str=}")
+    out = grammar.parse(test_str, rule="import")
+    print(out)
