@@ -68,6 +68,5 @@ def test_parse_math_expr(op: str, left: int, right: int, grammar):
 )
 def test_import_string(import_name: str, delim: str, grammar):
     test_str = f"import {delim}{import_name}{delim};"
-    print(f"{test_str=}")
     out = grammar.parse(test_str, rule="import")
-    print(out)
+    assert out[0][0]["import_name"][1] == import_name
