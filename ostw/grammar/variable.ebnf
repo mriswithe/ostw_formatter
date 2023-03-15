@@ -4,18 +4,18 @@ scope
     =
     | 'globalvar' scope: `GLOBAL`
     | 'playervar' scope: `PLAYER`
-    | scope: `None`
+    | () scope: `None`
     ;
-
+void = 'void';
 ARRAY
     =
     |'[]' is_array: `True`
-    | is_array: `False`
+    | () is_array: `False`
     ;
 EXTENDED
     =
     | '!' is_extended: `True`
-    | is_extended: `False`
+    | () is_extended: `False`
     ;
 variable_attributes
     =
@@ -29,15 +29,31 @@ variable_attributes
     | 'globalvar'
     | 'playervar'
     ;
-declaration = scope token_type token_name ['=' expr];
-multiple_declarations = ';'.{declaration}*;
-token_name = token ARRAY EXTENDED ;
+decl = scope type ARRAY expr EXTENDED ;
+assign = assign_symbol expr ;
+var_name = expr ARRAY EXTENDED;
+declaration
+    =
+    | scope token_type ARRAY var_name
+    | scope expr ARRAY EXTENDED
+    | scope token_type ARRAY
+    ;
+
+one_decl = @:(declaration [assign]) ';' $;
 token_type
     =
     | 'define'
-    | ident ARRAY
+    | expr ARRAY
     ;
 
+arrow = '=' '>';
+
+type
+    =
+    | '(' ','.{expr}* ')' arrow return:expr
+    | expr arrow return:expr
+    | expr
+    ;
 
 assign_symbol
     =
