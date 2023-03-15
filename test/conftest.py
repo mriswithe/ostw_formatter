@@ -3,6 +3,7 @@ from itertools import chain
 from pathlib import Path
 import os
 
+import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from pytest import fixture
 from typing import TYPE_CHECKING
@@ -93,6 +94,31 @@ def iter_variable_lines():
     return [line for line in (CURATED_DIR / "variables.del").read_text().splitlines()]
 
 
-@fixture(params=iter_variable_lines(), ids=list(range(len(iter_variable_lines()))))
+def marked_variable_lines():
+    """Uses stupid string in string comparisons to mark different language features in
+    the variable soup file"""
+
+    def add_mark(mark_name: str):
+        marks.append(getattr(pytest.mark, mark_name)())
+
+    for line in iter_variable_lines():
+        marks: list[pytest.mark] = []
+        if "[" in line and "]" in line:
+            add_mark("array")
+        if "globalvar" in line:
+            add_mark("globalvar")
+        if "define" in line:
+            add_mark("define")
+        if "playervar" in line:
+            add_mark("playervar")
+        if "!" in line:
+            add_mark("extended")
+        if len(marks) == 0:
+            yield line
+        else:
+            yield pytest.param(line, marks=marks)
+
+
+@fixture(params=marked_variable_lines(), ids=list(range(len(iter_variable_lines()))))
 def variable_line(request):
     return request.param
