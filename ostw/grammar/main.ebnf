@@ -38,8 +38,8 @@ token_complex = base:token_base r'.'.{children:token_child}* ;
 token_base
     =
     | literal_values
-    | func_call
     | index_access
+    | func_call
     | ident
     ;
 token_child
@@ -48,12 +48,9 @@ token_child
     | func_call
     | ident
     ;
-expr
-    =
-    | '(' ~ token math_symbol ~ expr ')'
-    | token math_symbol ~ expr
-    | token
-    ;
+base_expr = (math_symbol)%{token|expr}+ ;
+paren_expr = '(' base_expr ')' ;
+expr = paren_expr | base_expr;
 one_expr = expr $ ;
 func_call =  func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 index_access = index_name:ident '[' ~ [index:expr] ']' ;
