@@ -13,7 +13,6 @@ define cm_loadingHudEntity = LastTextID();
 define primary = IsButtonHeld(EventPlayer(), Button.PrimaryFire);
 define progressBar = CreateProgressBarHudText();
 define endTime = TotalTimeElapsed() + Nodes.Length * (0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016);
-define timeRemaining: endTime - TotalTimeElapsed();
 define timeRemainingText = CreateHudText(
 define destroy = selectedDummies;
 define export = Rules[i].Actions[actionIndexFromID(i, Rules[i].ActionOrder[a])].Export;
