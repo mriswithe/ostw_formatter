@@ -11,9 +11,10 @@ def test_curated_files(curated_pair, grammar):
 
 
 def test_curated_variable(variable_line, grammar):
+    """Pass or fail, wants a declaration with or without assignment"""
     print("\n")
     print(f"{variable_line=}")
-    out = grammar.parse(variable_line, start="declaration", trace=True)
+    out = grammar.parse(variable_line, start="one_decl", trace=True)
     pprint(out)
 
 
