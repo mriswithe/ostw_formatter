@@ -49,10 +49,11 @@ token_child
     ;
 expr
     =
-    | token math_symbol expr
+    | '(' ~ token math_symbol ~ expr ')'
+    | token math_symbol ~ expr
     | token
     ;
-
+one_expr = expr $ ;
 func_call =  func_name:ident '(' ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 
 kwarg = ident '=' expr ;
