@@ -25,25 +25,26 @@ literal_values
     | number
     | bool
     | string
-    | empty_array
+    | array
     ;
 LITERAL_VALUES = >literal_values;
 
 
-empty_array = '[' ']' ;
 
+array = '[' ','.{expr} ']';
 token = token_complex ;
 
 token_complex = base:token_base r'.'.{children:token_child}* ;
 token_base
     =
     | literal_values
-    | ident !'('
     | func_call
+    | index_access
+    | ident
     ;
 token_child
     =
-    | '[' index:expr ']'
+    | index_access
     | func_call
     | ident
     ;
@@ -54,8 +55,8 @@ expr
     | token
     ;
 one_expr = expr $ ;
-func_call =  func_name:ident '(' ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
-
+func_call =  func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
+index_access = index_name:ident '[' ~ [index:expr] ']' ;
 kwarg = ident '=' expr ;
 
 #include :: "import.ebnf"
