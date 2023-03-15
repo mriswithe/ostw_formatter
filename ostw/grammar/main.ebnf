@@ -12,7 +12,7 @@ root_elements
     | ';'.{import}*
     | assignment
     | token
-    | class
+    | class_decl
     | rule
 #    | subroutine
 #    | macro
@@ -33,7 +33,7 @@ LITERAL_VALUES = >literal_values;
 
 array = '[' ','.{expr} ']';
 token = token_complex ;
-
+index_access = &(ident '[') index_name:ident '[' ~ [index:expr] ']' ;
 token_complex = base:token_base r'.'.{children:token_child}* ;
 token_base
     =
@@ -44,7 +44,7 @@ token_base
     ;
 token_child
     =
-    | index_access
+    | >index_access
     | func_call
     | ident
     ;
@@ -52,10 +52,10 @@ base_expr = (math_symbol)%{token|expr}+ ;
 paren_expr = '(' base_expr ')' ;
 expr = paren_expr | base_expr;
 one_expr = expr $ ;
-func_call =  func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
-index_access = index_name:ident '[' ~ [index:expr] ']' ;
-kwarg = ident '=' expr ;
+func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 
+kwarg = ident '=' expr ;
+lambda = (','.{expr}) arrow expr ;
 #include :: "import.ebnf"
 #include :: "enum.ebnf"
 #include :: "class.ebnf"

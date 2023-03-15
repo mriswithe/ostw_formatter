@@ -8,4 +8,4 @@ class_body_parts
 class_instantiation = 'TODO';
 class_variable = 'TODO';
 class_method = 'TODO';
-class = class_start class_body ;
+class_decl = class_start class_body ;
