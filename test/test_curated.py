@@ -19,12 +19,10 @@ def test_curated_variable(variable_line, grammar):
 
 
 def test_expr(grammar):
-    sample = "0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016"
-    # sample = "0.016 + Nodes.Length"
-    sample = "Nodes.Length.Stuff.Such(a,b,x=y).stuff"
-    sample = "Nodes.Length.Stuff.Such().stuff.such.What(a,b)"
-    # sample = "What()"
-    out = grammar.parse(sample, start="expr")
+    sample = "0.016 + (Nodes.Length / 40 * 0.016) + Nodes.Length * 0.016"
+    # sample = "(0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016)"
+
+    out = grammar.parse(sample, start="one_expr", trace=True)
     print("\n")
 
     pprint(sample)
