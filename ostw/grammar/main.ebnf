@@ -43,6 +43,7 @@ token_base
     ;
 token_child
     =
+    | '[' index:expr ']'
     | func_call
     | ident
     ;
