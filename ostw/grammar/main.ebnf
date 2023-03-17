@@ -26,19 +26,28 @@ literal_values
     | bool
     | string
     | array
+    | tuple
     ;
 LITERAL_VALUES = >literal_values;
 
 
 
-array = '[' ','.{expr} ']';
-token = token_complex ;
+array = '[' @:','.{expr} ']';
+tuple = '(' @:','.{expr} ')';
+
 func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 index_access = &(ident '[') index_name:ident '[' ~ [index:expr] ']' ;
-token_complex = token_base [r'.' r'.'.{token_child}+ ];
-token_base
+
+
+token
     =
     | literal_values
+    | token_complex
+    | token_simple
+    ;
+
+token_base
+    =
     | >index_access
     | >func_call
     | ident
@@ -49,13 +58,14 @@ token_child
     | >func_call
     | ident
     ;
-base_expr = (math_symbol)%{token|expr}+ ;
-paren_expr = '(' base_expr ')' ;
-expr = paren_expr | assignment | base_expr ;
+token_simple = token_base ;
+token_complex = token_base [r'.' r'.'.{token_child}+ ];
+delete = 'delete' token ;
+expr = (math_symbols).{token}+ ;
 one_expr = expr $ ;
 
 
-kwarg = ident '=' expr ;
+kwarg = ident ':' expr ;
 lambda = (','.{expr}) arrow expr ;
 #include :: "import.ebnf"
 #include :: "enum.ebnf"
