@@ -103,9 +103,9 @@ class NumberSelector
 def test_expr(grammar):
     sample = "    public constructor(in Number.Potato initialValue, in Number posX, in Number posY, in Boolean visible)"
 
-    sample = "Value = initialValue;"
+    sample = "(s, i) => i"
     # sample = s
-    out = grammar.parse(sample, start="assignment", trace=True, trace_filename=True)
+    out = grammar.parse(sample, start="lambda", trace=True, trace_filename=True)
     print("\n")
 
     pprint(sample)

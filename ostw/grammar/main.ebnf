@@ -38,7 +38,7 @@ tuple = '(' @:','.{expr} ')';
 func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 index_access = &(ident '[') index_name:ident '[' ~ [index:expr] ']' ;
 
-
+kwarg = ident ':' expr ;
 token
     =
     | literal_values
@@ -58,15 +58,30 @@ token_child
     | >func_call
     | ident
     ;
+
 token_simple = token_base ;
 token_complex = token_base [r'.' r'.'.{token_child}+ ];
-delete = 'delete' token ;
+
+
+# tokens grouped together
 expr = (math_symbols).{token}+ ;
+
+
+lambda_params
+    =
+    | '(' @:','.{expr}+ ')'
+    | expr
+    ;
+lambda = lambda_params '=' '>' expr ;
+
+delete = 'delete' token ;
+statements
+    =
+    | delete
+    | `TODO`
+    ;
 one_expr = expr $ ;
 
-
-kwarg = ident ':' expr ;
-lambda = (','.{expr}) arrow expr ;
 #include :: "import.ebnf"
 #include :: "enum.ebnf"
 #include :: "class.ebnf"
