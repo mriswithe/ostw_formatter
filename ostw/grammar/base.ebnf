@@ -1,7 +1,7 @@
 # most tokens
-IDENT =  /[a-zA-Z0-9_]+/ ;
-# For when we do want to skip whitespace
-ident = IDENT;
+ident =  /[a-zA-Z0-9_]+/ ;
+# For when we do not want to skip whitespace
+IDENT = >ident;
 
 # Strings
 DBL_QUOTE = '"' ;

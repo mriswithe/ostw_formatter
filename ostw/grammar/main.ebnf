@@ -33,26 +33,27 @@ LITERAL_VALUES = >literal_values;
 
 array = '[' ','.{expr} ']';
 token = token_complex ;
+func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
 index_access = &(ident '[') index_name:ident '[' ~ [index:expr] ']' ;
-token_complex = base:token_base r'.'.{children:token_child}* ;
+token_complex = token_base [r'.' r'.'.{token_child}+ ];
 token_base
     =
     | literal_values
-    | index_access
-    | func_call
+    | >index_access
+    | >func_call
     | ident
     ;
 token_child
     =
     | >index_access
-    | func_call
+    | >func_call
     | ident
     ;
 base_expr = (math_symbol)%{token|expr}+ ;
 paren_expr = '(' base_expr ')' ;
-expr = paren_expr | base_expr;
+expr = paren_expr | assignment | base_expr ;
 one_expr = expr $ ;
-func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
+
 
 kwarg = ident '=' expr ;
 lambda = (','.{expr}) arrow expr ;

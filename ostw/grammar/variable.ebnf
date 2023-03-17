@@ -17,18 +17,7 @@ EXTENDED
     | '!' is_extended: `True`
     | () is_extended: `False`
     ;
-variable_attributes
-    =
-    | 'public'
-    | 'private'
-    | 'protected'
-    | 'virtual'
-    | 'override'
-    | 'abstract'
-    | 'static'
-    | 'globalvar'
-    | 'playervar'
-    ;
+generic_type = '<' expr '>' ;
 decl = scope type ARRAY expr EXTENDED ;
 assign = assign_symbol expr ;
 var_name = expr ARRAY EXTENDED;

@@ -2,10 +2,42 @@ class_start = 'class ' name: IDENT;
 class_body = '{' {class_body_parts}* '}';
 class_body_parts
     =
-    | class_variable
     | class_method
+    | class_variable
+#    | macro
     ;
 class_instantiation = 'TODO';
-class_variable = 'TODO';
-class_method = 'TODO';
+class_variable = method_attribute token_type ident [assign] ';';
+
 class_decl = class_start class_body ;
+
+class_method = (constructor_signature|method_signature) method_body;
+param_type
+    =
+    | 'ref'
+    | 'in'
+    | () `None`
+    ;
+method_param = param_type token ident;
+method_params = '(' ~ ','.{method_param}* ')' ;
+method_return = 'void' | expr ;
+method_signature = method_attribute token_type ident method_params ;
+constructor_signature = method_attribute 'constructor' ~ method_params;
+method_attribute
+    =
+    | 'public'
+    | 'private'
+    | 'protected'
+    | 'virtual'
+    | 'override'
+    | 'abstract'
+    | 'static'
+    | `None`
+    ;
+method_body = '{' {method_parts ';'}* '}' ;
+method_parts
+    =
+ expr
+    ;
+one_method = class_method $ ;
+one_class = class_decl $ ;

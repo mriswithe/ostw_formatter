@@ -1,11 +1,20 @@
-import traceback
+import sys
 from itertools import chain
 from pathlib import Path
 import os
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
-from pytest import fixture
+import tatsu.exceptions
+
+from pytest import (
+    fixture,
+    MonkeyPatch,
+    TestReport,
+    CollectReport,
+    CallInfo,
+    Function,
+)
+from tatsu.infos import LineInfo
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -63,15 +72,21 @@ def grammar() -> "Grammar":
     try:
         with MonkeyPatch.context() as mp:
             mp.chdir(GRAMMAR_DIR)
-            return compile(
+            grammar = compile(
                 GRAMMAR_FILE.read_text(),
                 colorize=True,
                 filename=str(GRAMMAR_FILE.resolve()),
             )
-    except:
-        # shhhhh traceback too many words
-        traceback.print_exc(limit=1)
-        raise Exception("Unable to Compile") from None
+    except tatsu.exceptions.FailedParse as e:
+        # # shhhhh traceback too many words
+        li: LineInfo = e.tokenizer.line_info(e.pos)
+        path = Path(li.filename)
+        base_dir = FILE_PARENT.parent
+        rel_path = path.relative_to(base_dir)
+        sys.stderr.write("\n\n..\\" + str(rel_path.with_suffix(".ebnf")))
+
+        raise
+    return grammar
 
 
 def iter_curated_pairs():
