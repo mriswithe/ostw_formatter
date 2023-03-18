@@ -98,15 +98,24 @@ class NumberSelector
     }
 }
 """
+s = """
+createButton(
+            ' {0} '.Format([initialValue]),
+            scale: 2.5,
+            posX: posX,
+            posY: posY,
+            defaultColor: Color.Yellow,
+            interactable: false,
+            visible: visible)
+"""
 
 
 def test_expr(grammar):
-    sample = "    public constructor(in Number.Potato initialValue, in Number posX, in Number posY, in Boolean visible)"
-
-    sample = "(s, i) => i"
+    sample = """TotalTimeElapsed() + Nodes.Length * (0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016)"""
     # sample = s
-    out = grammar.parse(sample, start="lambda", trace=True, trace_filename=True)
+
+    out = grammar.parse(sample, start="expr", trace=True, trace_filename=True)
     print("\n")
 
-    pprint(sample)
+    print(sample)
     pprint(out)
