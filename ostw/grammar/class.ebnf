@@ -34,10 +34,11 @@ method_attribute
     | 'static'
     | `None`
     ;
-method_body = '{' {method_parts ';'}* '}' ;
+method_body = '{' {@:method_parts ';'}* '}' ;
 method_parts
     =
- expr
+    | assignment
+    | expr
     ;
 one_method = class_method $ ;
 one_class = class_decl $ ;

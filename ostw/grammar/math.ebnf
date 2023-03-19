@@ -2,30 +2,16 @@
 ONE_NUMBER = /\d/ ;
 NUMERIC = /\d+/ ;
 DOT = '.' ;
-FLOAT = [NEG] NUMERIC DOT NUMERIC SCI_NOTE;
-NEG = '-';
-INT = [NEG] NUMERIC;
+neg = '-';
 E = 'e';
 OP
     =
     | '+'
     | '-'
     ;
-SCI_NOTE
-    =
-    | &E OP NUMERIC
-    | () `False`
-    ;
+SCI_NOTE = E OP NUMERIC ;
 
-NUMBER_TYPES
-    =
-    | FLOAT
-    | INT
-    ;
-
-number = NUMBER_TYPES;
-NUMBER = number ;
-
+number = [neg] NUMERIC [DOT NUMERIC [SCI_NOTE]] ;
 
 math_symbol
     =
@@ -36,4 +22,4 @@ math_symbol
     ;
 
 
-math = literal_values math_symbol literal_values ;
+actual_math = literal_values math_symbol literal_values ;

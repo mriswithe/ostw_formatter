@@ -46,7 +46,7 @@ type
 
 assign_symbol
     =
-    | '=' action: `ASSIGN`
+    | !arrow '=' action: `ASSIGN`
     | '+=' action: `ADD`
     | '-=' action: `SUBTRACT`
     | '*=' action: `MULTIPLY`
@@ -59,7 +59,7 @@ mod_symbol
     | '++' action: `INCREMENT`
     | '--' action: `DECREMENT`
     ;
-assignment = expr (assign_symbol expr| mod_symbol) ';' ;
+assignment = expr (assign_symbol expr| mod_symbol) ;
 
 
 

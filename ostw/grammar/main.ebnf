@@ -33,38 +33,29 @@ LITERAL_VALUES = >literal_values;
 
 
 array = '[' @:','.{expr} ']';
-tuple = '(' @:','.{expr} ')';
+tuple = '(' @:','.{expr} ')' !arrow;
 
-func_call = &(ident '(') func_name:ident '(' ~ ','.{{args:expr}* {kwargs:kwarg}*}* ')' ;
-index_access = &(ident '[') index_name:ident '[' ~ [index:expr] ']' ;
+func_predicate = '(' ~ ','.{{args:expr !':'}* {kwargs:kwarg}*}* ')' ;
+func_call = &(ident '(') func_name:ident func_predicate ;
+index_predicate = '[' ~ [index:expr] ']' ;
+index_access = &(ident '[') ident index_predicate ;
 
-kwarg = ident ':' expr ;
+kwarg = key:ident ':' value:expr ;
 token
     =
+    | lambda
     | literal_values
     | token_complex
     | token_simple
     ;
 
-token_base
-    =
-    | >index_access
-    | >func_call
-    | ident
-    ;
-token_child
-    =
-    | >index_access
-    | >func_call
-    | ident
-    ;
-
-token_simple = token_base ;
-token_complex = token_base [r'.' r'.'.{token_child}+ ];
+token_simple = ident [index_predicate|func_predicate];
+token_complex = '.'.{token_simple};
+token_math = token math_symbol token;
 
 
 # tokens grouped together
-expr = (math_symbols).{token}+ ;
+expr = (math_symbols)<{token_math|token}+ ;
 
 
 lambda_params

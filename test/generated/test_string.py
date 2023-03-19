@@ -1,4 +1,5 @@
-from _pytest.mark import MARK_GEN
+from pytest import mark
+
 from hypothesis import given, strategies as st
 from hypothesis.strategies import characters
 

@@ -112,9 +112,10 @@ createButton(
 
 def test_expr(grammar):
     sample = """TotalTimeElapsed() + Nodes.Length * (0.016 + Nodes.Length / 40 * 0.016 + Nodes.Length * 0.016)"""
+    sample = """5+5"""
     # sample = s
 
-    out = grammar.parse(sample, start="expr", trace=True, trace_filename=True)
+    out = grammar.parse(sample, start="math", trace=True, trace_filename=True)
     print("\n")
 
     print(sample)

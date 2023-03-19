@@ -1,0 +1,11 @@
+class DeathZone
+{
+    public Vector Location;
+    public Any Radius;
+
+    public constructor(in Vector location, in Any radius)
+    {
+        Location = location;
+        Radius = radius;
+    }
+}

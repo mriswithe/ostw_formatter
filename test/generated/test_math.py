@@ -15,12 +15,16 @@ def test_int_parsing(number: int, grammar):
         assert int(l + r) == number
 
 
-@given(left=st.integers(), right=st.integers(min_value=0))
+float_str = st.tuples(st.integers(), st.integers(min_value=0)).map(
+    lambda x: "{0}.{1}".format(*x)
+)
+
+
+@given(src=float_str)
 @mark.float
-def test_simple_float(left: int, right: int, grammar):
-    num_str = f"{left}.{right}"
-    out = grammar.parse(num_str, start="number")
-    assert num_str == "".join(out)
+def test_simple_float(src: str, grammar):
+    out = grammar.parse(src, start="number")
+    assert src == "".join(out)
 
 
 lowish_int = st.integers(min_value=-1000, max_value=1000)

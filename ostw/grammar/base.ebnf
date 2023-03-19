@@ -8,13 +8,9 @@ DBL_QUOTE = '"' ;
 SNGL_QUOTE = "'" ;
 ANYTHING_BUT_DBL_QUOTE = /[^"\n]+/ ;
 ANYTHING_BUT_SNGL_QUOTE = /[^'\n]+/ ;
-dbl_quote_string = DBL_QUOTE ANYTHING_BUT_DBL_QUOTE DBL_QUOTE;
-sngl_quote_string = SNGL_QUOTE ANYTHING_BUT_SNGL_QUOTE SNGL_QUOTE;
-string
-    =
-    | sngl_quote_string
-    | dbl_quote_string
-    ;
+dbl_quote_string = DBL_QUOTE ~ ANYTHING_BUT_DBL_QUOTE DBL_QUOTE;
+sngl_quote_string = SNGL_QUOTE ~ ANYTHING_BUT_SNGL_QUOTE SNGL_QUOTE;
+string = (sngl_quote_string|dbl_quote_string) ['.' func_call];
 
 # Boolean
 bool
